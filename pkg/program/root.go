@@ -42,7 +42,7 @@ func (rc *RootCommand) Run(cmd *cobra.Command, args []string) {
 	// Define useful variables.
 	filesChan := make(chan *gen.File, 1024)
 
-	// Initiate principal structs.
+	// Initiate main structs.
 	filesReader := &gen.FilesReader{
 		RootDirname:       inputDirname,
 		FilenamesToIgnore: make([]string, 0),
@@ -56,7 +56,8 @@ func (rc *RootCommand) Run(cmd *cobra.Command, args []string) {
 
 	// If outfile is inside readdir, add outfile to ignorelist.
 	if strings.HasPrefix(outputFilename, inputDirname) {
-		filesReader.FilenamesToIgnore = append(filesReader.FilenamesToIgnore, outputFilename[len(inputDirname):])
+		relativePath := outputFilename[len(inputDirname):]
+		filesReader.FilenamesToIgnore = append(filesReader.FilenamesToIgnore, relativePath)
 	}
 
 	// Run the reader/writer.
