@@ -96,16 +96,18 @@ func (p *Program) createRootCmd() *cobra.Command {
 	}
 
 	cmd.Flags().StringVarP(&rc.options.inputDirname, "input-dirname", "", ".",
-		`dirname of the directory to read from, default value is "."`)
+		`dirname of the directory to read from`)
 
 	cmd.Flags().StringVarP(&rc.options.outputFilename, "output-filename", "", "./init_gofgen.go",
-		`filename of the output file, default value is "./init_gofgen.go"`)
+		`filename of the output file`)
 
 	cmd.Flags().StringVarP(&rc.options.packageName, "package-name", "", "",
 		"package name to use, default value is basename of input-dirname")
 
+	/*
 	cmd.Flags().StringVarP(&rc.options.compress, "compress", "", "",
 		"compression algorithm to use")
+	 */
 
 	return cmd
 }
