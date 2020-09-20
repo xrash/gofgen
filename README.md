@@ -38,8 +38,6 @@ As the example shows, you can access the in-memory file system, loaded by gofgen
 
 ## How to install
 
-> Warning: you need `goimports` installed.
-
 Using `go get`:
 
 ```bash
