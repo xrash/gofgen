@@ -72,27 +72,27 @@ func TestWriteFuture(t *testing.T) {
 				`
 package pkgname
 
-type FileManager struct {
+type FileSystem struct {
 db map[string][]byte
 }
 
-var Files *FileManager = &FileManager{
+var FS *FileSystem = &FileSystem{
 db: make(map[string][]byte),
 }
 
-func (fm *FileManager) Get(key string) ([]byte, bool) {
-v, ok := fm.db[key]
+func (fs *FileSystem) Get(key string) ([]byte, bool) {
+v, ok := fs.db[key]
 return v, ok
 }
 
 
 func init() {
 
-Files.db["/suppose/this/is/a/file"] = []byte{1,2,3,4,5,10,50,100,}
+FS.db["/suppose/this/is/a/file"] = []byte{1,2,3,4,5,10,50,100,}
 
-Files.db["/suppose/this/is/another/file.html"] = []byte{150,150,150,}
+FS.db["/suppose/this/is/another/file.html"] = []byte{150,150,150,}
 
-Files.db["/example.html"] = []byte{}
+FS.db["/example.html"] = []byte{}
 
 }
 `

@@ -62,7 +62,7 @@ func (iw *InitWriter) doWrite(filename string, filesChan <-chan *File, errChan c
 
 	// Write every loaded file.
 	for file := range filesChan {
-		lineBeginning := fmt.Sprintf(`Files.db["%s"] = []byte{`, file.key)
+		lineBeginning := fmt.Sprintf(`FS.db["%s"] = []byte{`, file.key)
 		initFile.Write([]byte(lineBeginning))
 
 		for _, b := range file.value {

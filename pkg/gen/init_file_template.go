@@ -3,16 +3,16 @@ package gen
 var __init_file_template_head = `
 package {{.packageName}}
 
-type FileManager struct {
+type FileSystem struct {
 db map[string][]byte
 }
 
-var Files *FileManager = &FileManager{
+var FS *FileSystem = &FileSystem{
 db: make(map[string][]byte),
 }
 
-func (fm *FileManager) Get(key string) ([]byte, bool) {
-v, ok := fm.db[key]
+func (fs *FileSystem) Get(key string) ([]byte, bool) {
+v, ok := fs.db[key]
 return v, ok
 }
 
