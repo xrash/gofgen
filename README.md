@@ -4,7 +4,7 @@
 
 ## What is this about
 
-In your Go project, you have a directory full of static files, let's say it looks like this:
+In your Go project, you have a directory `res` containing static files:
 
 ```
 project/
@@ -13,11 +13,25 @@ project/
     ├── html/
     |   └── index.html
     └── css/
-	    ├── main.css
-		└── utils.css
+        ├── main.css
+        └── utils.css
 ```
 
-You run `gofgen` inside `project/res` before compiling your program. `gofgen` then generates file `project/res/init_gofgen.go`, containing code that loads your local files into memory. Finally, you can access those files from your code. For example, `main.go` might look like this:
+You run `gofgen` inside `project/res` before compiling your program. `gofgen` then generates file `project/res/init_gofgen.go`, containing Go code that loads everything under `project/res` into memory.
+
+```
+project/
+├── main.go
+└── res/
+    ├── html/
+    |   └── index.html
+    ├── css/
+    |   ├── main.css
+    |   └── utils.css
+    └── init_gofgen.go
+```
+
+Finally, you can access all the files under `project/res` from your code. For example, `main.go` might look like this:
 
 ```go
 package main
@@ -35,6 +49,8 @@ func main() {
 ```
 
 As the example shows, you can access the in-memory file system, loaded by gofgen's init file, using the `FS` variable now available from your `res` package. Every file inside `res` must be referred from the root directory, that is, starting with an `/`, as in `/html/index.html`.
+
+Your directory `res` was once just a local storage for your static files - now it's an accessible Go package!
 
 ## How to install
 
