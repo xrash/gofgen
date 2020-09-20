@@ -7,6 +7,12 @@ import (
 	"text/template"
 )
 
+func osCreateFile(filename string) (io.WriteCloser, error) {
+	return os.Create(filename)
+}
+
+var createFile func(string) (io.WriteCloser, error) = osCreateFile
+
 type InitWriter struct {
 	PackageName          string
 	CompressionAlgorithm string
@@ -20,8 +26,6 @@ func (iw *InitWriter) WriteFuture(filesChan <-chan *File) (<-chan error, <-chan 
 	go func() {
 		defer func() {
 			doneChan <- true
-			//			close(errChan)
-			//			close(doneChan)
 		}()
 
 		iw.doWrite(iw.OutputFilename, filesChan, errChan)
@@ -33,7 +37,7 @@ func (iw *InitWriter) WriteFuture(filesChan <-chan *File) (<-chan error, <-chan 
 func (iw *InitWriter) doWrite(filename string, filesChan <-chan *File, errChan chan<- error) {
 
 	// Create the init file.
-	initFile, err := os.Create(filename)
+	initFile, err := createFile(filename)
 	if err != nil {
 		errChan <- fmt.Errorf("Error creating init file %s: %v", filename, err)
 		return
@@ -53,27 +57,25 @@ func (iw *InitWriter) doWrite(filename string, filesChan <-chan *File, errChan c
 	}
 
 	// Write the beginning of the init() function.
-	initFile.WriteString("\n")
-	initFile.WriteString("func init() {\n")
+	initFile.Write([]byte("\n"))
+	initFile.Write([]byte("func init() {\n\n"))
 
 	// Write every loaded file.
 	for file := range filesChan {
 		lineBeginning := fmt.Sprintf(`Files.db["%s"] = []byte{`, file.key)
-		initFile.WriteString(lineBeginning)
+		initFile.Write([]byte(lineBeginning))
 
 		for _, b := range file.value {
 			singleByte := fmt.Sprintf("%d,", b)
-			initFile.WriteString(singleByte)
+			initFile.Write([]byte(singleByte))
 		}
 
 		lineEnd := "}\n\n"
-		initFile.WriteString(lineEnd)
+		initFile.Write([]byte(lineEnd))
 	}
 
 	// Close the init() function.
-	initFile.WriteString("}\n")
-
-	//
+	initFile.Write([]byte("}\n"))
 }
 
 func (iw *InitWriter) writeHead(w io.Writer) error {
