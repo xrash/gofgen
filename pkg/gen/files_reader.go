@@ -43,7 +43,7 @@ func (fr *FilesReader) readDir(dirname string, filesChan chan<- *File, errChan c
 
 		if finfo.Mode().IsDir() {
 			fr.readDir(filename, filesChan, errChan)
-			return
+			continue
 		}
 
 		b, err := ioutil.ReadFile(filename)
