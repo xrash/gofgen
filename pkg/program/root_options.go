@@ -7,7 +7,7 @@ import (
 
 const __default_init_filename = "./init_gofgen.go"
 
-func handleInputDirname(s string) (string, error) {
+func handleInputDir(s string) (string, error) {
 	if s == "" {
 		return os.Getwd()
 	}
@@ -15,7 +15,7 @@ func handleInputDirname(s string) (string, error) {
 	return filepath.Abs(s)
 }
 
-func handleOutputFilename(s string) (string, error) {
+func handleOutputFile(s string) (string, error) {
 	if s == "" {
 		s = __default_init_filename
 	}

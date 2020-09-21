@@ -10,8 +10,8 @@ type RootCommand struct {
 	program *Program
 
 	options struct {
-		inputDirname   string
-		outputFilename string
+		inputDir       string
+		outputFile     string
 		packageName    string
 		compress       string
 	}
@@ -19,15 +19,15 @@ type RootCommand struct {
 
 func (rc *RootCommand) Run(cmd *cobra.Command, args []string) {
 
-	inputDirname, err := handleInputDirname(rc.options.inputDirname)
+	inputDirname, err := handleInputDir(rc.options.inputDir)
 	if err != nil {
-		PrintlnErr("Error handling option input-dirname", err)
+		PrintlnErr("Error handling option input-dir", err)
 		rc.program.Exit(1)
 	}
 
-	outputFilename, err := handleOutputFilename(rc.options.outputFilename)
+	outputFilename, err := handleOutputFile(rc.options.outputFile)
 	if err != nil {
-		PrintlnErr("Error handling option output-filename", err)
+		PrintlnErr("Error handling option output-file", err)
 		rc.program.Exit(1)
 	}
 
@@ -95,10 +95,10 @@ func (p *Program) createRootCmd() *cobra.Command {
 		Run:   rc.Run,
 	}
 
-	cmd.Flags().StringVarP(&rc.options.inputDirname, "input-dirname", "", ".",
+	cmd.Flags().StringVarP(&rc.options.inputDir, "input-dir", "", ".",
 		`dirname of the directory to read from`)
 
-	cmd.Flags().StringVarP(&rc.options.outputFilename, "output-filename", "", "./init_gofgen.go",
+	cmd.Flags().StringVarP(&rc.options.outputFile, "output-file", "", "./init_gofgen.go",
 		`filename of the output file`)
 
 	cmd.Flags().StringVarP(&rc.options.packageName, "package-name", "", "",

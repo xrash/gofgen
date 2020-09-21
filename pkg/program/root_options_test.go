@@ -8,29 +8,29 @@ import (
 	"testing"
 )
 
-func TestHandleInputDirname(t *testing.T) {
+func TestHandleInputDir(t *testing.T) {
 
 	cwd, _ := os.Getwd()
 
 	g := goblin.Goblin(t)
 
-	g.Describe("Multiple cases for handleInputDirname", func() {
+	g.Describe("Multiple cases for handleInputDir", func() {
 
 		g.It("Should be cwd if argument is an empty string", func() {
-			s, err := handleInputDirname("")
+			s, err := handleInputDir("")
 			g.Assert(s).Equal(cwd)
 			g.Assert(err).Equal(nil)
 		})
 
 		g.It("Should be abs if argument is relative", func() {
-			s, err := handleInputDirname("./example/of/relative/path")
+			s, err := handleInputDir("./example/of/relative/path")
 			g.Assert(filepath.IsAbs(s)).Equal(true)
 			g.Assert(strings.HasPrefix(s, cwd)).Equal(true)
 			g.Assert(err).Equal(nil)
 		})
 
 		g.It("Should not change if argument is already abs", func() {
-			s, err := handleInputDirname("/example/of/absolute/path")
+			s, err := handleInputDir("/example/of/absolute/path")
 			g.Assert(filepath.IsAbs(s)).Equal(true)
 			g.Assert(s).Equal("/example/of/absolute/path")
 			g.Assert(err).Equal(nil)
@@ -40,30 +40,30 @@ func TestHandleInputDirname(t *testing.T) {
 
 }
 
-func TestHandleOutputFilename(t *testing.T) {
+func TestHandleOutputFile(t *testing.T) {
 
 	cwd, _ := os.Getwd()
 
 	g := goblin.Goblin(t)
 
-	g.Describe("Multiple cases for handleOutputFilename", func() {
+	g.Describe("Multiple cases for handleOutputFile", func() {
 
 		g.It("Should be __default_init_filename if argument is an empty string", func() {
 			expected, _ := filepath.Abs(__default_init_filename)
-			result, err := handleOutputFilename("")
+			result, err := handleOutputFile("")
 			g.Assert(result).Equal(expected)
 			g.Assert(err).Equal(nil)
 		})
 
 		g.It("Should be abs if argument is relative", func() {
-			s, err := handleOutputFilename("./example/of/relative/path")
+			s, err := handleOutputFile("./example/of/relative/path")
 			g.Assert(filepath.IsAbs(s)).Equal(true)
 			g.Assert(strings.HasPrefix(s, cwd)).Equal(true)
 			g.Assert(err).Equal(nil)
 		})
 
 		g.It("Should not change if argument is already abs", func() {
-			s, err := handleOutputFilename("/example/of/absolute/path")
+			s, err := handleOutputFile("/example/of/absolute/path")
 			g.Assert(filepath.IsAbs(s)).Equal(true)
 			g.Assert(s).Equal("/example/of/absolute/path")
 			g.Assert(err).Equal(nil)
