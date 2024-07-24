@@ -79,7 +79,7 @@ This will generate `~/my-amazing-project/resources/init_gofgen.go`, having `pack
 Using `go get`:
 
 ```bash
-go get github.com/xrash/gofgen/cmd/gofgen
+go install github.com/xrash/gofgen/cmd/gofgen@latest
 ```
 
 Manually compiling:
